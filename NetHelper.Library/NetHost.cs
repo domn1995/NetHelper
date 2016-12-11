@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NetHelper.Library
@@ -71,7 +72,7 @@ namespace NetHelper.Library
 
         public Task WaitForConnectionAsync()
         {
-            throw new NotImplementedException();
+            return Task.Run(() => WaitForConnection());
         }
 
         public bool IsConnectionAvailable()
