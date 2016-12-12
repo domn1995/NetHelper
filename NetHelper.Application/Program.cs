@@ -4,32 +4,31 @@ using NetHelper.Library;
 
 namespace NetHelper.Application
 {
-    using static Console;
     public static class Program
     {
-        private static readonly NetHost netHost = new NetHost("192.168.0.16");
+        private static readonly IConnectionAwaiter netHost = new NetHost("192.168.0.16");
         private static bool done = false;
         public static void Main()
         {
+            Console.WriteLine($"***Waiting for connection to {((NetHost)netHost).Host}***");
             ConnectAsync();
             PrintStatus();
-            WriteLine("Press any button to quit.");
-            Read();
+            Console.WriteLine("Press any button to quit.");
+            Console.Read();
         }
 
         private async static void ConnectAsync()
         {
-            WriteLine($"***Waiting for connection to {netHost.Host}***");
             await netHost.WaitForConnectionAsync();
             done = true;
-            WriteLine("\n***Connection established.***");
+            Console.WriteLine("\n***Connection established.***");
         }
 
         private static void PrintStatus()
         {
             while (!done)
             {
-                Write("\rConnecting");
+                Console.Write("\rConnecting");
                 for (int i = 0; i < 4; i++)
                 {
                     if (done)
@@ -37,11 +36,11 @@ namespace NetHelper.Application
                         return;
                     }
 
-                    Write(".");
+                    Console.Write(".");
                     Thread.Sleep(250);
                     if (i == 3)
                     {
-                        Write("\rConnecting    ");
+                        Console.Write("\rConnecting    ");
                     }
                 }
             }
